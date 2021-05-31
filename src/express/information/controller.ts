@@ -27,10 +27,15 @@ export class InformationController {
                 }
             }
             if(!config.rabbit.isMockMatchToKart){
-                for (let index = 0; index < data.length; index++) {
-                    sendRecordToMatch(data[index], dataSource, runUID)
-                    
+                if(!(Array.isArray(data))){
+                    sendRecordToMatch(data, dataSource, runUID)
+                }else{
+                    for (let index = 0; index < data.length; index++) {
+                        sendRecordToMatch(data[index], dataSource, runUID)
+                        
+                    }
                 }
+
             }
             return data;
         }).catch((err)=> {throw err})

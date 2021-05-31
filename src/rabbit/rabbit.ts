@@ -15,4 +15,8 @@ export const sendRecordToMatch = async (record: any, dataSource: any,runUID:any)
     await menash.send(config.rabbit.beforeMatchQName, { record: record, dataSource: dataSource, runUID:runUID });
 };
 
-export default { connectRabbit, sendRecordToMatch };
+export const sendRecordToLogger = async (level: string, message: string,extrasFields:any =undefined) => {
+    await menash.send("logger", { level: level, message: message, system:"karting" ,service:"splitter",extrasFields:extrasFields});
+};
+
+export default { connectRabbit, sendRecordToMatch ,sendRecordToLogger};

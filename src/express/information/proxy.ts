@@ -3,6 +3,7 @@ import axios from 'axios';
 import config from '../../config/index';
 import { ServerError } from '../../helpers/errorHandler';
 import {getSpikeToken} from '../../spike/spike'
+import {sendRecordToLogger} from '../../rabbit/rabbit'
 
 export class InformationProxy {
     static async getInformation(dataSource: any,parameter:string, value:any) {
@@ -19,7 +20,8 @@ export class InformationProxy {
             headers = { Authorization: token}
         }
 
-        const persons: any = await axios.get(config.urlSources.get(dataSource)+"/"+parameter+"/"+value, {headers}).catch((_) => {
+        const persons: any = await axios.get(config.urlSources.get(dataSource)+"/"+parameter+"/"+value, {headers}).catch((err) => {
+            sendRecordToLogger("error",err.message)
             throw new ServerError(500, 'Cannot connect with proxy');
         });
         if(persons === undefined || persons.data === undefined){

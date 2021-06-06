@@ -22,14 +22,19 @@ class InformationController {
         promiseAllWithFails_1.default(resultsPromises, undefined).then((results) => {
             let data = [];
             for (let res of results) {
-                if (res !== undefined && res !== []) {
+                if ((Array.isArray(res) && res.length > 0) || typeof res === "object") {
                     data = res;
                     break;
                 }
             }
             if (!index_1.default.rabbit.isMockMatchToKart) {
-                for (let index = 0; index < data.length; index++) {
-                    rabbit_1.sendRecordToMatch(data[index], dataSource, runUID);
+                if (!(Array.isArray(data))) {
+                    rabbit_1.sendRecordToMatch(data, dataSource, runUID);
+                }
+                else {
+                    for (let index = 0; index < data.length; index++) {
+                        rabbit_1.sendRecordToMatch(data[index], dataSource, runUID);
+                    }
                 }
             }
             return data;

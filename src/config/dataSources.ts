@@ -1,6 +1,6 @@
 
 
-export const existingParams:any = ["personalNumber","identityCard","domainUser"];
+export const existingParams = ["personalNumber","identityCard","domainUser"];
 
 
 

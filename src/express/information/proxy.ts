@@ -7,14 +7,15 @@ import {sendRecordToLogger} from '../../rabbit/rabbit'
 
 export class InformationProxy {
     static async getInformation(dataSource: any,parameter:string, value:any) {
-        let headers={};
+        let headers:any={};
 
         if(!config.token.isMockSpikeToDS){
             const token = await getSpikeToken(dataSource).catch((_)=>{
-                
+                sendRecordToLogger("error","Redis token invalid")
                 throw new ServerError(500, 'Redis token invalid');
             });
             if(token === null){
+                sendRecordToLogger("error","Datasource doesn`t exist")
                 throw new ServerError(500,'Data source doesn`t exist')
             }
             headers = { Authorization: token}
@@ -22,7 +23,7 @@ export class InformationProxy {
 
         const persons: any = await axios.get(config.urlSources.get(dataSource)+"/"+parameter+"/"+value, {headers}).catch((err) => {
             sendRecordToLogger("error",err.message)
-            throw new ServerError(500, 'Cannot connect with proxy');
+            throw new ServerError(500, err.message);
         });
         if(persons === undefined || persons.data === undefined){
             return [];

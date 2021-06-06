@@ -20,13 +20,16 @@ export class InformationController {
         promiseAllWithFails(resultsPromises,undefined).then((results)=>{
             let data:any =[];
             for (let res of results) {             
-                if(res !== undefined && res !== [] ){
+                
+                if((Array.isArray(res) && res.length>0) ||  typeof res === "object" ){
                    
                     data = res;
                     break;
                 }
             }
+            
             if(!config.rabbit.isMockMatchToKart){
+                
                 if(!(Array.isArray(data))){
                     sendRecordToMatch(data, dataSource, runUID)
                 }else{

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendRecordToMatch = exports.connectRabbit = void 0;
+exports.sendRecordToLogger = exports.sendRecordToMatch = exports.connectRabbit = void 0;
 const menashmq_1 = __importDefault(require("menashmq"));
 const index_1 = __importDefault(require("../config/index"));
 const connectRabbit = async () => {
@@ -20,5 +20,9 @@ const sendRecordToMatch = async (record, dataSource, runUID) => {
     await menashmq_1.default.send(index_1.default.rabbit.beforeMatchQName, { record: record, dataSource: dataSource, runUID: runUID });
 };
 exports.sendRecordToMatch = sendRecordToMatch;
-exports.default = { connectRabbit: exports.connectRabbit, sendRecordToMatch: exports.sendRecordToMatch };
+const sendRecordToLogger = async (level, message, extrasFields = undefined) => {
+    await menashmq_1.default.send("logger", { level: level, message: message, system: "karting", service: "splitter", extrasFields: extrasFields });
+};
+exports.sendRecordToLogger = sendRecordToLogger;
+exports.default = { connectRabbit: exports.connectRabbit, sendRecordToMatch: exports.sendRecordToMatch, sendRecordToLogger: exports.sendRecordToLogger };
 //# sourceMappingURL=rabbit.js.map

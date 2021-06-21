@@ -40,6 +40,7 @@ export class InformationController {
                 }
 
             }
+            
             return data;
         }).catch((err)=> {throw err})
         res.json("ok")

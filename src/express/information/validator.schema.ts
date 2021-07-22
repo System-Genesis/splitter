@@ -10,6 +10,6 @@ export const getInformationRequestSchema = Joi.object({
 
 export const getInformationRequestSchemaAll = Joi.object({
     query: {},
-    body:{dataSource: Joi.string().required(),runUID: Joi.string().required(), personalNumber: Joi.string(),identityCard: Joi.string(), domainUser: Joi.string()  },
+    body:{runUID: Joi.string().required(), personalNumber: Joi.string(),identityCard: Joi.string(), domainUser: Joi.string()  },
     params: {  },
 });

@@ -1,6 +1,5 @@
 
 
-export const existingParams = ["personalNumber","identityCard","domainUser"];
 
 
 
@@ -18,4 +17,4 @@ export const dataSources =  {
     city: "city_name",
     mir: "mir_name",
 };
-export default {dataSources, existingParams}
+export default {dataSources}

@@ -31,6 +31,9 @@ export const configEnv = {
         isMockMatchToKart: env.get('RABBIT_MOCK_MATCH_TO_KART').required().asBool(),
         
     },
+    logger:{
+        mock: env.get('LOGGER_MOCK').required().asBool(),
+    },
     dataSources,
     token:{
         isMockSpikeToMe: env.get('SPIKE_MOCK_TO_ME').required().asBool(),
@@ -71,6 +74,7 @@ export const configEnv = {
     }
 
 };
+export const existingParams = ["personalNumber","identityCard","domainUser"];
 
 const obj:Map<string,string> = new Map();
 obj.set(dataSources.aka, configEnv.proxy.aka_uri);

@@ -1,7 +1,7 @@
 import http from 'http';
 import express from 'express';
 // import * as helmet from 'helmet';
-// import * as logger from 'morgan';
+import logger from 'morgan';
 import { connectRabbit } from '../rabbit/rabbit';
 import { once } from 'events';
 import { errorMiddleware } from './error';
@@ -27,7 +27,7 @@ class Server {
         app.use(express.json());
         app.use(express.urlencoded({ extended: true }));
 
-        //app.use(logger('dev'));
+        app.use(logger('dev'));
         app.use(appRouter);
 
         app.use(errorMiddleware);

@@ -10,6 +10,7 @@ services:
     env_file: variables.env
     volumes: 
       - ./dataSources.ts:/usr/src/app/app/config/dataSources.ts
+      - ./key.pem:/usr/src/app/app/key.pem
     depends_on: 
       - redis
       - rabbit

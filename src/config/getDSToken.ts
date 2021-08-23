@@ -13,7 +13,7 @@ export const options= (clientID:string,clientSecret:string,tokenAudience:string,
     tokenGrantType: 'client_credentials',
     tokenAudience: tokenAudience,
     tokenRedisKeyName: tokenKeyName,
-    spikePublicKeyFullPath: path.join(process.cwd(), './key.pem'),
+    spikePublicKeyFullPath: path.join(__dirname, '../key/key.pem'),
     useRedis: true,
     httpsValidation: false,
     }

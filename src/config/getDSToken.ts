@@ -1,8 +1,5 @@
 import config from './index';
 import path from "path";
-import process from "process";
-
-
 
 export const options= (clientID:string,clientSecret:string,tokenAudience:string, tokenKeyName:string) =>{
     return{

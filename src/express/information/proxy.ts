@@ -24,12 +24,12 @@ export class InformationProxy {
             }
             headers = { Authorization: token}
         }
-
         const persons: any = await axios.get(config.urlSources.get(dataSource)+"/"+parameter+"/"+value, {headers}).catch((err) => {
             if(!config.logger.mock){
                 sendRecordToLogger("error",err.message)
                 throw new ServerError(500, err.message);
             }
+            console.log(err.message)
         });
         if(persons === undefined || persons.data === undefined){
             return [];

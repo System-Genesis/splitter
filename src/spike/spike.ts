@@ -30,6 +30,7 @@ export const getSpikeTokenADnn= async () => {
 }
 
 export const configureSpikeRedis = () => {
+    if(!config.token.isMockSpikeToDS){
 
     getTokenAka = getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceAka,"tokenAka"));
 
@@ -42,6 +43,7 @@ export const configureSpikeRedis = () => {
     getTokenADS= getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceADS,"tokenADS"));
 
     getTokenADNN= getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceADnn,"tokenADnn"));
+    }
 
 
 }

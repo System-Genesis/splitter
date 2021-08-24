@@ -8,7 +8,6 @@ let getTokenSouf;
 let getTokenCity;
 let getTokenEightSocks;
 let getTokenADNN;
-let getTokenADS;
 export const getSpikeTokenAka = async () => {
     return await getTokenAka();
 }
@@ -22,9 +21,7 @@ export const getSpikeTokenCity = async () => {
 export const getSpikeTokenEightSocks = async () => {
     return await getTokenEightSocks();
 }
-export const getSpikeTokenADS = async () => {
-    return await getTokenADS();
-}
+
 export const getSpikeTokenADnn= async () => {
     return await getTokenADNN();
 }
@@ -39,8 +36,6 @@ export const configureSpikeRedis = () => {
     getTokenCity= getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceCity,"tokenCity"));
 
     getTokenEightSocks = getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceEightSocks,"tokenEightSocks"));
-
-    getTokenADS= getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceADS,"tokenADS"));
 
     getTokenADNN= getTokenCreator(options(config.token.clientID,config.token.clientSecret,config.token.audeienceADnn,"tokenADnn"));
     }
@@ -57,8 +52,6 @@ export const getSpikeToken = async(dataSourceName:string) =>{
             return await getSpikeTokenCity();
         case dataSources.es:
             return await getSpikeTokenEightSocks();
-        case dataSources.ads:
-            return await getSpikeTokenADS();
         case dataSources.adNN:
             return await getSpikeTokenADnn(); 
     

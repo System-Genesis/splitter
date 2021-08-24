@@ -29,7 +29,6 @@ export class InformationProxy {
                 sendRecordToLogger("error",err.message)
                 throw new ServerError(500, err.message);
             }
-            console.log(err.message)
         });
         if(persons === undefined || persons.data === undefined){
             return [];

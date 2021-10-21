@@ -22,7 +22,7 @@ export class InformationController {
         }
 
         const sourcesToCheck:string[] = stringToArray(req.body.dataSource);
-        let allDSresPromises = [];
+        let allDSresPromises: Promise<any>[] = [];
         for (let i=0; i< sourcesToCheck.length; i+=1 ){
             if(sourcesToCheck[i]==='all'){
                 for (let dataSource in dataSources ){
@@ -41,37 +41,66 @@ export class InformationController {
 
         }
         const runUID:string =req.body.runUID.toString();
-        
-        
-
-        promiseAllWithFails(allDSresPromises,undefined).then((results)=>{
-            let data:any =[];
-            for (let res of results) {             
-                
-                if((Array.isArray((res as any).records) && (res as any).records.length>0) ||  typeof (res as any).records === "object" ){
-                   
-                    data = res;
-                    if(!config.rabbit.isMockMatchToKart){
-                
-                        if(!(Array.isArray(data.records))){
-                            sendRecordToMatch(data.records, data.source, runUID)
-                        }else{
-                            for (let index = 0; index < data.records.length; index++) {
-                                sendRecordToMatch(data.records[index], data.source, runUID)
-                                
+        res.json("ok")
+        for (let i=0; i< allDSresPromises.length; i++) {
+            try{
+                const res = await allDSresPromises[i];
+                let data:any =[];
+                           
+                    
+                    if((Array.isArray((res as any).records) && (res as any).records.length>0) ||  typeof (res as any).records === "object" ){
+                       
+                        data = res;
+                        if(!config.rabbit.isMockMatchToKart){
+                    
+                            if(!(Array.isArray(data.records))){
+                                sendRecordToMatch(data.records, data.source, runUID)
+                            }else{
+                                for (let index = 0; index < data.records.length; index++) {
+                                    sendRecordToMatch(data.records[index], data.source, runUID)
+                                    
+                                }
                             }
+            
                         }
-        
+                  
                     }
-              
-                }
+                
+            }catch(err) {
+                throw err;
             }
             
+        }
+        
+
+        // promiseAllWithFails(allDSresPromises,undefined).then((results)=>{
+        //     let data:any =[];
+        //     for (let res of results) {             
+                
+        //         if((Array.isArray((res as any).records) && (res as any).records.length>0) ||  typeof (res as any).records === "object" ){
+                   
+        //             data = res;
+        //             if(!config.rabbit.isMockMatchToKart){
+                
+        //                 if(!(Array.isArray(data.records))){
+        //                     sendRecordToMatch(data.records, data.source, runUID)
+        //                 }else{
+        //                     for (let index = 0; index < data.records.length; index++) {
+        //                         sendRecordToMatch(data.records[index], data.source, runUID)
+                                
+        //                     }
+        //                 }
+        
+        //             }
+              
+        //         }
+        //     }
+            
 
             
-            return data;
-        }).catch((err)=> {throw err})
-        res.json("ok")
+        //     return data;
+        // }).catch((err)=> {throw err})
+        // res.json("ok")
     }
    
 

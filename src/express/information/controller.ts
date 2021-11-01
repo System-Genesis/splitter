@@ -60,7 +60,7 @@ export class InformationController {
             }
           }
         }
-        console.log(data);
+
       } catch (err) {
         throw err;
       }

@@ -9,6 +9,6 @@ import {isAuth} from './auth'
 const informationRouter: Router = Router();
 
 informationRouter.post('/information',isAuth, ValidateRequest(getInformationRequestSchema), wrapController(InformationController.getInformation));
-informationRouter.post('/informationToMe',isAuth, ValidateRequest(getInformationRequestSchema), wrapController(InformationController.getInformationWithoutSending));
+informationRouter.get('/information',isAuth, ValidateRequest(getInformationRequestSchema), wrapController(InformationController.getInformationWithoutSending));
 
 export default informationRouter;

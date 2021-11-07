@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import config from "../../config/index";
-import { sendRecordToMatch } from "../../rabbit/rabbit";
-import mock from "../../config/mocks.json";
-import createParamsPromises from "../../utils/createParamsPromises";
+import { Request, Response } from 'express';
+import config from '../../config/index';
+import { sendRecordToMatch } from '../../rabbit/rabbit';
+import mock from '../../config/mocks.json';
+import createParamsPromises from '../../utils/createParamsPromises';
 //import promiseAllWithFails from "../../utils/promiseAllWithFails";
-import { dataSources } from "../../config/dataSources";
+import { dataSources } from '../../config/dataSources';
 
 const stringToArray: any = (source: [] | string) => {
   if (!Array.isArray(source)) return [source];
@@ -19,16 +19,13 @@ export class InformationController {
       return;
     }
 
-    const sourcesToCheck: string[] = stringToArray(req.body.dataSource);
+    const sourcesToCheck: string[] = stringToArray(req.query.dataSource);
     let allDSresPromises: Promise<any>[] = [];
     for (let i = 0; i < sourcesToCheck.length; i += 1) {
-      if (sourcesToCheck[i] === "all") {
+      if (sourcesToCheck[i] === 'all') {
         for (let dataSource in dataSources) {
           if (config.urlSources.has(dataSources[dataSource])) {
-            let resultsPromises: any = createParamsPromises(
-              req,
-              dataSources[dataSource]
-            );
+            let resultsPromises: any = createParamsPromises(req, dataSources[dataSource]);
             allDSresPromises = allDSresPromises.concat(resultsPromises);
           }
         }
@@ -37,17 +34,16 @@ export class InformationController {
         allDSresPromises = allDSresPromises.concat(resultsPromises);
       }
     }
-    const runUID: string = req.body.runUID.toString();
-    res.json("Sent Successfully!");
+    const runUID: string = req.headers.runuid as string;
+    res.json('Sent Successfully!');
     for (let i = 0; i < allDSresPromises.length; i++) {
       try {
         const res = await allDSresPromises[i];
         let data: any = [];
 
         if (
-          (Array.isArray((res as any).records) &&
-            (res as any).records.length > 0) ||
-          typeof (res as any).records === "object"
+          (Array.isArray((res as any).records) && (res as any).records.length > 0) ||
+          typeof (res as any).records === 'object'
         ) {
           data = res;
           if (!config.rabbit.isMockMatchToKart) {
@@ -60,7 +56,6 @@ export class InformationController {
             }
           }
         }
-
       } catch (err) {
         throw err;
       }
@@ -99,16 +94,13 @@ export class InformationController {
       return;
     }
 
-    const sourcesToCheck: string[] = stringToArray(req.body.dataSource);
+    const sourcesToCheck: string[] = stringToArray(req.query.dataSource);
     let allDSresPromises: Promise<any>[] = [];
     for (let i = 0; i < sourcesToCheck.length; i += 1) {
-      if (sourcesToCheck[i] === "all") {
+      if (sourcesToCheck[i] === 'all') {
         for (let dataSource in dataSources) {
           if (config.urlSources.has(dataSources[dataSource])) {
-            let resultsPromises: any = createParamsPromises(
-              req,
-              dataSources[dataSource]
-            );
+            let resultsPromises: any = createParamsPromises(req, dataSources[dataSource]);
             allDSresPromises = allDSresPromises.concat(resultsPromises);
           }
         }
@@ -117,7 +109,7 @@ export class InformationController {
         allDSresPromises = allDSresPromises.concat(resultsPromises);
       }
     }
-    const runUID: string = req.body.runUID.toString();
+    const runUID: string = req.headers.runuid as string;
     const finalResults: any[] = [];
     for (let i = 0; i < allDSresPromises.length; i++) {
       try {
@@ -125,9 +117,8 @@ export class InformationController {
         let data: any = [];
 
         if (
-          (Array.isArray((res as any).records) &&
-            (res as any).records.length > 0) ||
-          typeof (res as any).records === "object"
+          (Array.isArray((res as any).records) && (res as any).records.length > 0) ||
+          typeof (res as any).records === 'object'
         ) {
           data = res;
 

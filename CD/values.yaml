@@ -1,10 +1,10 @@
-name: "variables"
+name: "splitter"
 replicaCount: 1
 
 images:
   PullSecrets: 
     name: kartingreg
-  repository: rabazhub.azurecr.io/values-test
+  repository: genesisproject.azurecr.io/splitter
   tag: "latest"
 
 service:
@@ -21,14 +21,4 @@ service:
 
 config:
   configmaps: 
-    name: variables
-
-ingress:
-  enabled: true
-  hosts:
-  - host: test-cd.branch-yesodot.org
-    paths:
-      - path: /message
-        service: testname
-        port: "3000"
-  
+    name: splitter

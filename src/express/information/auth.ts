@@ -14,7 +14,8 @@ export const isAuth = async (req :Request, _:Response, next: NextFunction) => {
     
 
     const token = req.header('Authorization');
-    const key = fs.readFileSync(path.join(__dirname, '../../config/key.pem'));
+    const key = fs.readFileSync(path.join(__dirname, '../../key/key.pem'));
+    
     try {
         const payload = await averify(token, key.toString()).catch((_: any) => { throw new HttpError(401, 'Unauthorized'); });
         if(payload.aud !== config.token.audience)

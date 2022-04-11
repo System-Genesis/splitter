@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import checkConnections from '../utils/checkConnections';
 import informationRouter from './information/router';
 
 const appRouter = Router();
@@ -6,7 +7,7 @@ const appRouter = Router();
 appRouter.use('/api', informationRouter);
 
 appRouter.use('/isAlive', (_req, res) => {
-    res.status(200).send('alive');
+    res.send(checkConnections() ? 'OK' : 'Not OK')
 });
 
 appRouter.use('*', (_req, res) => {
